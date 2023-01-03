@@ -4,7 +4,7 @@ type Props = {};
 
 const OverviewCard = (props: Props) => {
   return (
-    <div className="flex my-5 w-full h-auto overflow-hidden relative">
+    <div className="flex my-5 w-full h-auto overflow-hidden relative bg-white p-3 rounded-md">
       <div className="grid grid-cols-2 tablet:grid-cols-3 gap-4 w-full">
         {Array(6)
           .fill("")

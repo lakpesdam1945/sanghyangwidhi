@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
-      <body className="scroll-smooth antialiased w-full min-h-screen relative">
+      <body className="scroll-smooth antialiased w-full h-screen">
         <Main />
         <NextScript />
       </body>

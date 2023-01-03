@@ -1,50 +1,54 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
+import { useDetectClickOutside } from "react-detect-click-outside";
 import {
   IoChatboxEllipses,
   IoMenu,
   IoNotifications,
   IoSunny,
 } from "react-icons/Io5";
-import Drawer from "./Drawer";
 
-type Props = {};
+type Props = {
+  openSideLeft: Dispatch<SetStateAction<boolean>>;
+  openSideRight: Dispatch<SetStateAction<boolean>>;
+  trigerCloseSidebarLeft: () => void;
+  trigerCloseSidebarRight: () => void;
+  isOpen: boolean;
+};
 
 const Header = (props: Props) => {
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const refLeft = useDetectClickOutside({
+    onTriggered: props.trigerCloseSidebarLeft,
+  });
+  const refRight = useDetectClickOutside({
+    onTriggered: props.trigerCloseSidebarRight,
+  });
   return (
     <>
-      <div className="flex w-full sticky z-50 top-0">
-        <nav className="flex w-full items-center justify-between bg-white py-5 px-4">
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center">
-              <div className="mr-4">
-                <IoMenu
-                  className="w-5 h-5 text-sky-900"
-                  onClick={() => setOpenDrawer(!openDrawer)}
-                />
-              </div>
-              <ul className="flex items-center gap-4">
-                <li className="text-xs text-sky-900 font-medium">Message</li>
-                <li className="text-xs text-sky-900 font-medium">Schedules</li>
-              </ul>
+      <nav className="sticky">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div ref={refLeft} className="flex tablet:hidden">
+              <IoMenu
+                className="h-5 w-5 text-slate-900 hover:cursor-pointer "
+                onClick={() => props.openSideLeft(true)}
+              />
             </div>
-            <div className="flex">
-              <ul className="flex items-center gap-4">
-                <li>
-                  <IoChatboxEllipses className="w-5 h-5 text-sky-900" />
-                </li>
-                <li>
-                  <IoNotifications className="w-5 h-5 text-sky-900" />
-                </li>
-                <li>
-                  <IoSunny className="w-5 h-5 text-yellow-500" />
-                </li>
-              </ul>
+
+            <span className="text-sm font-medium text-slate-800">Messages</span>
+          </div>
+          <div className="flex gap-4 items-center">
+            <IoChatboxEllipses className="w-5 h-5 text-slate-800" />
+            <IoNotifications className="w-5 h-5 text-slate-800" />
+            <IoSunny className="w-5 h-5 text-amber-500" />
+            <div className="flex laptop:hidden" ref={refRight}>
+              <IoMenu
+                className="h-5 w-5 text-slate-900 hover:cursor-pointer"
+                onClick={() => props.openSideRight(true)}
+              />
             </div>
           </div>
-        </nav>
-      </div>
-      <Drawer isOpen={openDrawer} />
+        </div>
+      </nav>
     </>
   );
 };

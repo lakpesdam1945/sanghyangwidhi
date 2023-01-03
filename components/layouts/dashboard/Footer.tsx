@@ -4,9 +4,9 @@ type Props = {};
 
 const Footer = (props: Props) => {
   return (
-    <div className="flex w-full sticky z-20 bottom-0">
-      <footer className="flex text-xs font-semibold bg-white text-sky-600 w-full p-3 items-center justify-center">
-        Sang Hyang Widhi
+    <div className="flex items-center text-center w-full justify-center">
+      <footer className="text-slate-500 flex text-xs font-light">
+        Made by Love Sang Hyang Widhi
       </footer>
     </div>
   );

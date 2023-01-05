@@ -1,3 +1,4 @@
+import useAuthState from "hooks/auth";
 import React, { Dispatch, SetStateAction } from "react";
 import { IoList, IoLogOutOutline, IoMenu, IoSettings } from "react-icons/Io5";
 type Props = {
@@ -51,16 +52,17 @@ const menu = [
 ];
 
 const AsideLeft = (props: Props) => {
+  const { loggedOut } = useAuthState();
   return (
     <>
       <div className="flex w-full flex-col">
         <div className="p-5 flex w-full items-center justify-between">
-          <span className="text-sm font-semibold text-slate-900 w-full">
+          <span className="text-sm font-semibold text-slate-900 dark:text-sky-50 w-full">
             Sang Hyang Widhi
           </span>
           <div>
             <IoMenu
-              className="h-5 w-5 text-slate-900 hover:cursor-pointer block tablet:hidden"
+              className="h-5 w-5 text-slate-900 dark:text-sky-50 hover:cursor-pointer block tablet:hidden"
               onClick={() => props.openSideLeft(false)}
             />
           </div>
@@ -71,8 +73,8 @@ const AsideLeft = (props: Props) => {
               const Icon = data.icons;
               return (
                 <span key={data._id} className="inline-flex gap-2 items-center">
-                  <Icon className="w-5 h-5 text-slate-900" />
-                  <span className="text-sm font-medium text-slate-900 w-full">
+                  <Icon className="w-5 h-5 text-slate-900 dark:text-sky-50" />
+                  <span className="text-sm font-medium text-slate-900 dark:text-sky-50 w-full">
                     {data.label}
                   </span>
                 </span>
@@ -83,14 +85,17 @@ const AsideLeft = (props: Props) => {
         </div>
         <div className="flex flex-col p-3 gap-4 mb-4">
           <span className="inline-flex gap-2 items-center">
-            <IoSettings className="w-5 h-5 text-slate-900" />
-            <span className="text-sm font-medium text-slate-900 w-full">
+            <IoSettings className="w-5 h-5 text-slate-900 dark:text-sky-50" />
+            <span className="text-sm font-medium text-slate-900 dark:text-sky-50 w-full">
               Settings
             </span>
           </span>
           <span className="inline-flex gap-2 items-center">
-            <IoLogOutOutline className="w-5 h-5 text-slate-900" />
-            <span className="text-sm font-medium text-slate-900 w-full">
+            <IoLogOutOutline
+              className="w-5 h-5 text-slate-900 dark:text-sky-50"
+              onClick={loggedOut}
+            />
+            <span className="text-sm font-medium text-slate-900 dark:text-sky-50 w-full">
               Logout
             </span>
           </span>

@@ -1,16 +1,11 @@
 import Head from "next/head";
-import { ReactElement, useEffect, useState } from "react";
-import Dashboard from "../../components/layouts/Dashboard";
-import { NextPageWithLayout } from "../_app";
-import { useRouter } from "next/router";
+import { ReactElement } from "react";
+import Dashboard from "@/components/layouts/Dashboard";
+import { NextPageWithLayout } from "pages/_app";
+import Authenticated from "hooks/Authenticated";
 
 const Home: NextPageWithLayout = () => {
-  const [isAuth, setIsAuth] = useState(true);
-  const router = useRouter();
-  useEffect(() => {
-    isAuth ? router.push("/dashboard") : router.push("/");
-  }, []);
-
+  Authenticated(true);
   return (
     <>
       <Head>
@@ -21,7 +16,7 @@ const Home: NextPageWithLayout = () => {
       </Head>
 
       <div className="flex w-full flex-col">
-        <div className="w-full bg-white shadow-md rounded-md p-3">main</div>
+        <div className="w-full bg-white shadow-md rounded-md p-3"></div>
       </div>
     </>
   );

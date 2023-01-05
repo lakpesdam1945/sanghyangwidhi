@@ -2,10 +2,12 @@ import React, { ReactElement } from "react";
 import { NextPageWithLayout } from "../_app";
 import Dashboard from "../../components/layouts/Dashboard";
 import Head from "next/head";
+import Authenticated from "hooks/Authenticated";
 
 type Props = {};
 
 const Search: NextPageWithLayout = (props: Props) => {
+  Authenticated(true);
   return (
     <>
       <Head>

@@ -47,7 +47,7 @@ const mobileMenu = [
 const MobileMenu = (props: Props) => {
   const router = useRouter();
   return (
-    <div className="flex w-full items-center justify-between">
+    <div className="flex w-full items-center justify-between bg">
       {mobileMenu.map((menu, i) => {
         const Icon = menu.icon;
         return (
@@ -55,8 +55,8 @@ const MobileMenu = (props: Props) => {
             <Icon
               className={`${
                 router.pathname == menu.path
-                  ? "text-slate-900"
-                  : "text-slate-500"
+                  ? "text-sky-900 dark:text-sky-50"
+                  : "text-slate-500 dark:text-sky-500"
               } w-5 h-5`}
             />
           </Link>

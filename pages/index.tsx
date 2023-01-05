@@ -1,9 +1,11 @@
 import Head from "next/head";
-import MainLayout from "../components/layouts/Main";
 import { ReactElement } from "react";
 import Link from "next/link";
 import { NextPageWithLayout } from "./_app";
+import MainLayout from "@/components/layouts/Main";
+import Authenticated from "hooks/Authenticated";
 const Home: NextPageWithLayout = () => {
+  Authenticated(false);
   return (
     <>
       <Head>
@@ -13,7 +15,8 @@ const Home: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Link href={"/dashboard"}>Go to Dashboard</Link>Helo
+        <div></div>
+        <Link href={"/dashboard"}>Go to Dashasdboard</Link>
       </main>
     </>
   );

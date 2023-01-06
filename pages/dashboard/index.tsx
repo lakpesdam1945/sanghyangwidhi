@@ -2,10 +2,8 @@ import Head from "next/head";
 import { ReactElement } from "react";
 import Dashboard from "@/components/layouts/Dashboard";
 import { NextPageWithLayout } from "pages/_app";
-import Authenticated from "hooks/Authenticated";
 
 const Home: NextPageWithLayout = () => {
-  Authenticated(true);
   return (
     <>
       <Head>

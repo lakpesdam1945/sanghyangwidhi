@@ -8,25 +8,19 @@ export type AuthType = {
   required: boolean;
 };
 
-const Authenticated = (required: boolean) => {
-  // ? Get dari localstorage
+export const useAuth = ({ middleware = "guest" } = {}) => {
   const { isAuth } = useAuthState();
+
+  const [user, setUser] = useState(false);
+  const username = "edikoswara";
   const router = useRouter();
-  // ? set state
-  const [auth, setAuth] = useState(isAuth);
   useEffect(() => {
-    setAuth(isAuth);
+    setUser(isAuth);
+    if (middleware === "guest" && isAuth) router.push("/");
+  }, [user]);
 
-    if (required === true) {
-      router.push("/login");
-    }
-    // console.log(auth);
-    console.log(required);
-  }, [isAuth]);
-
-  // return auth;
+  return {
+    user,
+    username,
+  };
 };
-
-export const Auth = () => {};
-
-export default Authenticated;

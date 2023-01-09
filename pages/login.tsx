@@ -1,20 +1,41 @@
 import Head from "next/head";
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement, useState } from "react";
 import { NextPageWithLayout } from "./_app";
 import MainLayout from "../components/layouts/Main";
 import Image from "next/image";
-import useAuthState from "../hooks/auth";
-import { useRouter } from "next/router";
-
+import { useForm } from "react-hook-form";
+import { TLoginInputs, resolver } from "types/typesLoginForm";
+import { useAuthStore } from "store/useAuthStore";
 type Props = {};
 
+/**
+ * TODO
+ * ! RAPIHKAN STRUKTUR HTML DAN CLASS
+ * ! BUAT FUNGSI CUSTOM HOOK HANDLE LOGIN
+ */
+
 const Login: NextPageWithLayout = (props: Props) => {
-  const { isAuth, setIsAuth } = useAuthState();
-  const getAuthStatus = useAuthState();
+  // auth
+  const [disable, setDisable] = useState(false);
+  const state = useAuthStore();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TLoginInputs>({ resolver });
 
-  // const [isAuth, setIsAuth] = useState(false);
-  const router = useRouter();
-
+  const onSubmit = async (data: TLoginInputs) => {
+    try {
+      await state.useLogin(data.email, data.password);
+      if (state.status === 204) {
+        alert(state.email);
+      } else {
+        alert("GAGAL");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <Head>
@@ -51,31 +72,57 @@ const Login: NextPageWithLayout = (props: Props) => {
             </h3>
             <div className="gap-4 flex w-full">
               <div className="gap-4 flex flex-col w-full">
-                <input
-                  type="email"
-                  className="w-full px-4 py-2 rounded form-input  border-gray-300
-                  shadow-sm
-                  focus:border-sky-300 focus:ring focus:ring-sky-200 focus:ring-opacity-50"
-                  placeholder="email"
-                />
-                <input
-                  type="text"
-                  className="w-full px-4 py-2 rounded form-input  border-gray-300
-                  shadow-sm
-                  focus:border-sky-300 focus:ring focus:ring-sky-200 focus:ring-opacity-50"
-                  placeholder="password"
-                />
-                <div>
-                  <button
-                    className="px-4 py-2 text-sm font-semibold text-sky-50 bg-sky-900 rounded"
-                    onClick={
-                      setIsAuth
-                      // router.replace("/dashboard");
-                    }
-                  >
-                    Login
-                  </button>
-                </div>
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="gap-4 flex flex-col w-full"
+                >
+                  {/* EMAIL */}
+                  <div>
+                    <input
+                      {...register("email")}
+                      type="email"
+                      className={`${
+                        errors.email
+                          ? "focus:ring-red-200 focus:ring-opacity-50 focus:border-rose-300 focus:ring"
+                          : "focus:border-sky-300 focus:ring focus:ring-sky-200 focus:ring-opacity-50"
+                      } w-full px-4 py-2 rounded form-input border-gray-300 shadow-sm `}
+                      placeholder="email"
+                    />
+                    {errors?.email && (
+                      <span className="text-rose-500 text-xs">
+                        {errors.email.message}
+                      </span>
+                    )}
+                  </div>
+                  {/* PASSWORD */}
+                  <div>
+                    <input
+                      {...register("password")}
+                      type="password"
+                      className={`${
+                        errors.password
+                          ? "focus:ring-red-200 focus:ring-opacity-50 focus:border-rose-300 focus:ring"
+                          : "focus:border-sky-300 focus:ring focus:ring-sky-200 focus:ring-opacity-50"
+                      } w-full px-4 py-2 rounded form-input border-gray-300 shadow-sm `}
+                      placeholder="password"
+                    />
+                    {errors?.password && (
+                      <span className="text-rose-500 text-xs">
+                        {errors.password.message}
+                      </span>
+                    )}
+                  </div>
+                  {/* BUTTON */}
+                  <div>
+                    <button
+                      disabled={disable}
+                      type="submit"
+                      className="px-4 py-2 text-sm font-semibold text-sky-50 bg-sky-900 rounded"
+                    >
+                      Login
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

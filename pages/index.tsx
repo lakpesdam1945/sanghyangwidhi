@@ -5,6 +5,9 @@ import MainLayout from "@/components/layouts/Main";
 import { useAuth } from "hooks/Authenticated";
 import Navbar from "@/components/header/Navbar";
 import MobileMenu from "@/components/mobileMenu/MobileMenu";
+import Carousel from "@/components/carousel/Carousel";
+import MenuOfcanvas from "@/components/OfCanvas/MenuOfcanvas";
+import HorizontalCard from "@/components/card/HorizontalCard";
 const Home: NextPageWithLayout = () => {
   const { user, username } = useAuth({ middleware: "guest" });
 
@@ -17,33 +20,36 @@ const Home: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <main className="flex flex-col gap-4 px-4 py-16 w-full h-auto">
-        <div className="w-full h-20 bg-slate-300 rounded-md flex items-center justify-center">
-          <span className="text-2xl text-sky-900 font-extrabold">
-            Selamat Datang
-          </span>
-        </div>
-        <hr />
-        {Array(5)
-          .fill("")
-          .map((_, i) => (
-            <div
-              key={i}
-              className="flex w-full h-20 bg-slate-100 p-2 rounded-md gap-2"
-            >
-              <div className="flex h-full w-4/12 bg-sky-500 rounded-md items-center justify-center">
-                <span className="text-sky-50 font-semibold">IMAGE</span>
-              </div>
-              <div className="flex flex-col w-full gap-1">
-                <h3 className="text-xs font-semibold text-sky-900 leading-relaxed">
-                  Sang Hyang Widhi
-                </h3>
-                <p className="text-xs font-light text-sky-700 leading-relaxed w-full">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                </p>
+      <MenuOfcanvas />
+      <main className="flex flex-col gap-4 px-4 laptop:px-20 py-20 w-full h-auto">
+        {/* CAROUSEL & POPULER POSTS */}
+        <div className="flex flex-col tablet:flex-row gap-4 w-full">
+          <div className="flex w-full tablet:w-8/12">
+            <div className="w-full h-96 rounded-md flex items-center justify-center relative overflow-hidden">
+              <Carousel />
+            </div>
+          </div>
+          {/* POPULAR */}
+          <div className="flex flex-col h-96 w-full tablet:w-4/12">
+            <div className="flex items-center justify-between border-b-[1px] w-full border-sky-900 sticky top-0 bg-white pb-4">
+              <h3 className="text-sm text-sky-900 font-bold leading-snug">
+                Populer
+              </h3>
+              <span className="text-xs text-sky-700">Lihat Semua</span>
+            </div>
+            <div className="flex flex-col w-full bg-white rounded-md overflow-y-auto">
+              <div className="flex flex-col w-full gap-3 pt-2">
+                {Array(10)
+                  .fill("")
+                  .map((_, i) => (
+                    <div key={i} className="flex w-full relative">
+                      <HorizontalCard />
+                    </div>
+                  ))}
               </div>
             </div>
-          ))}
+          </div>
+        </div>
       </main>
       <MobileMenu />
     </>

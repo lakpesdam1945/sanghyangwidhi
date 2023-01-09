@@ -12,9 +12,9 @@ type Props = {};
 
 const MobileMenu = (props: Props) => {
   return (
-    <div className="flex items-center justify-between gap-4 w-full px-4 py-4 bg-slate-100 fixed z-50 bottom-0">
+    <div className="flex tablet:hidden items-center justify-between gap-4 w-full px-4 py-4 bg-slate-100 fixed z-40 bottom-0">
       <Link href={"/"}>
-        <IoHome className="w-5 h-5 text-sky-900" />
+        <IoHome className="w-5 h-5 text-sky-500" />
       </Link>
       <Link href={"/"}>
         <IoSearch className="w-5 h-5 text-slate-500" />

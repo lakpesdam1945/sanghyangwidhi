@@ -4,8 +4,9 @@ import { NextPageWithLayout } from "./_app";
 import MainLayout from "../components/layouts/Main";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
+import { useAuthStore } from "store/useAuth";
 import { TLoginInputs, resolver } from "types/typesLoginForm";
-import { useAuthStore } from "store/useAuthStore";
+import { useRouter } from "next/router";
 type Props = {};
 
 /**
@@ -17,6 +18,8 @@ type Props = {};
 const Login: NextPageWithLayout = (props: Props) => {
   // auth
   const [disable, setDisable] = useState(false);
+  const router = useRouter();
+  // ? STATE USER
   const state = useAuthStore();
   const {
     register,
@@ -26,12 +29,9 @@ const Login: NextPageWithLayout = (props: Props) => {
 
   const onSubmit = async (data: TLoginInputs) => {
     try {
-      await state.useLogin(data.email, data.password);
-      if (state.status === 204) {
-        alert(state.email);
-      } else {
-        alert("GAGAL");
-      }
+      await state.useLogin(data.email, data.password).then((res) => {
+        router.push("/");
+      });
     } catch (error) {
       console.log(error);
     }
@@ -88,6 +88,12 @@ const Login: NextPageWithLayout = (props: Props) => {
                       } w-full px-4 py-2 rounded form-input border-gray-300 shadow-sm `}
                       placeholder="email"
                     />
+                    {/* {state.setErrors?} */}
+                    {state.setErrors && (
+                      <span className="text-rose-500 text-xs">
+                        {state.setErrors}
+                      </span>
+                    )}
                     {errors?.email && (
                       <span className="text-rose-500 text-xs">
                         {errors.email.message}
@@ -117,7 +123,7 @@ const Login: NextPageWithLayout = (props: Props) => {
                     <button
                       disabled={disable}
                       type="submit"
-                      className="px-4 py-2 text-sm font-semibold text-sky-50 bg-sky-900 rounded"
+                      className="px-4 py-2 text-sm font-semibold text-sky-50 bg-sky-700 rounded hover:bg-sky-900"
                     >
                       Login
                     </button>

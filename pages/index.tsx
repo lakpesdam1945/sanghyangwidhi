@@ -1,16 +1,21 @@
 import Head from "next/head";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { NextPageWithLayout } from "./_app";
 import MainLayout from "@/components/layouts/Main";
-import { useAuth } from "hooks/Authenticated";
 import Navbar from "@/components/header/Navbar";
 import MobileMenu from "@/components/mobileMenu/MobileMenu";
 import Carousel from "@/components/carousel/Carousel";
 import MenuOfcanvas from "@/components/OfCanvas/MenuOfcanvas";
 import HorizontalCard from "@/components/card/HorizontalCard";
+import { useAuthStore } from "store/useAuth";
+import { GetUser, UserTypes } from "types/UserTypes";
 const Home: NextPageWithLayout = () => {
-  const { user, username } = useAuth({ middleware: "guest" });
-
+  const { user, getUser } = useAuthStore((state) => state);
+  const [users, setUsers] = useState<UserTypes>();
+  useEffect(() => {
+    getUser();
+    setUsers(user);
+  }, [user]);
   return (
     <>
       <Head>
@@ -19,7 +24,7 @@ const Home: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
+      <Navbar user={users} />
       <MenuOfcanvas />
       <main className="flex flex-col gap-4 px-4 laptop:px-20 py-20 w-full h-auto">
         {/* CAROUSEL & POPULER POSTS */}

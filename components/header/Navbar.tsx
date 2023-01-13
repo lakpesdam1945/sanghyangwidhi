@@ -1,12 +1,19 @@
+import { getCookie } from "cookies-next";
 import useGlobalStore from "hooks/useGlobalStore";
+import http from "lib/axios";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDetectClickOutside } from "react-detect-click-outside";
-import { IoBag, IoMenu, IoPerson, IoSearch } from "react-icons/Io5";
+import { IoBag, IoMenu, IoPerson } from "react-icons/Io5";
+import { GetUser, UserTypes } from "types/UserTypes";
 
-type Props = {};
+type Props = {
+  user?: UserTypes | undefined;
+};
 
 const Navbar = (props: Props) => {
+  const name = props.user;
+  // getCookie
   const { setIsOpen, setClose } = useGlobalStore();
   const trigerCloseOfCanvasRef = useDetectClickOutside({
     onTriggered: setClose,
@@ -22,7 +29,7 @@ const Navbar = (props: Props) => {
             Sang Hyang Widhi
           </Link>
         </div>
-        <div className="hidden tablet:flex gap-4">
+        <div className="hidden items-center tablet:flex gap-4">
           <Link href={"/"} className="text-xs text-sky-50">
             About
           </Link>
@@ -35,6 +42,17 @@ const Navbar = (props: Props) => {
           <Link href={"/"} className="text-xs text-sky-50">
             Categories
           </Link>
+          <div className="relative overflow-hidden flex gap-4">
+            {props.user ? (
+              <Link href={"/"} className="text-xs text-sky-50">
+                {name?.name}
+              </Link>
+            ) : (
+              <Link href={"/login"} className="text-xs text-sky-50">
+                Login
+              </Link>
+            )}
+          </div>
         </div>
         <div className="flex items-center justify-between gap-4 tablet:hidden">
           <Link href={"/"}>
